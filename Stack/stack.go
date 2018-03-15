@@ -1,4 +1,4 @@
-package stackNode
+package stack
 
 import "fmt"
 

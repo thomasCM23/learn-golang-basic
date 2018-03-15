@@ -1,4 +1,4 @@
-package DLinkedList
+package doublylinklist
 
 import "fmt"
 

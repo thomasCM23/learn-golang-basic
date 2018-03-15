@@ -1,4 +1,4 @@
-package queueNode
+package queue
 
 import "fmt"
 
