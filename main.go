@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 
 	"github.com/thomasCM23/learnGoLang/DoublyLinkList"
 	"github.com/thomasCM23/learnGoLang/Queue"
@@ -38,4 +40,31 @@ func main() {
 	fmt.Println(ddList)
 	ddList.RemoveAll()
 	fmt.Println(ddList)
+}
+
+//Concorrency Patters
+// Function the returns a channel
+
+func boring(msg string) <-chan string { // returns receive-only channel of strings
+	c := make(chan string)
+	go func() {
+		for i := 0; ; i++ {
+			c <- fmt.Sprintf("%s %d", msg, i)
+			time.Sleep(time.Duration(rand.Intn(1e3)) * time.Millisecond)
+		}
+	}()
+	return c // return the channel to the caller
+}
+
+// Multiplexing
+func fanIn(inputs ...<-chan string) <-chan string {
+	c := make(chan string)
+	for _, input := range inputs {
+		go func() {
+			for {
+				c <- <-input
+			}
+		}()
+	}
+	return c
 }
